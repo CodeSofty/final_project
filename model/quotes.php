@@ -3,54 +3,43 @@
 //These are the functions just for the quotes
 
 class Quote {
+ // DB Stuff
 
-    // DB stuff
-    private $conn;
-    private $table = 'quotes';
-
-    // Quote Properties
-
-    public $quote;
-    public $category_id;
-    public $author_id;
-    public $id;
-    public $category;
-    public $author;
+private $conn;
 
 
-    // Constructor with DB
+// Properties
 
-    public function __construct($db) {
-        $this->conn = $db;
-    }
+public $id;
+public $category;
+public $quote;
+public $author;
 
-    public function read() {
-        // $query = 'SELECT 
-        // quotes.quote, 
-        // quotes.ID, 
-        // quotes.categoryId, 
-        // quotes.authorId, 
-        // categories.categories, 
-        // authors.author 
-        // FROM quotes
-        // LEFT JOIN categories
-        // ON quotes.categoryId = categories.ID
-        // LEFT JOIN authors
-        // ON quotes.authorId = authors.ID';
+// Constructor with DB
 
-        $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId, quotes.authorId, categories.categories, authors.author FROM quotes
-        //     INNER JOIN categories
-        //     ON quotes.categoryId = categories.ID
-        //     INNER JOIN authors
-        //     ON quotes.authorId = authors.ID';
+public function __construct($db){
+    $this->conn = $db;
+}
 
-        // Prepared statements
+// Read Quotes
 
-        $stnt = $this->conn->prepare($query);
-        $stnt->execute();
+public function read() {
+    // Create query
 
-        return $stnt;
-    }
+    $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId,  quotes.authorId, 
+                        categories.categories, authors.author
+                        FROM quotes  
+                        INNER JOIN categories 
+                        ON quotes.categoryId = categories.id
+                        INNER JOIN authors
+                        ON  quotes.authorId = authors.id';
+
+                    $statement = $this->conn->prepare($query);
+                    $statement->execute();
+                    return $statement;
+}
+
+}
 
 
     // public static function get_quotes_by_category($category_id) {
@@ -113,5 +102,3 @@ class Quote {
     //     $statement->closeCursor();
     //     return $results;
     // }
-
-}
