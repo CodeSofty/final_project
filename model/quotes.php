@@ -39,6 +39,72 @@ public function read() {
                     return $statement;
 }
 
+// Single Quote 
+
+public function read_single() {
+    $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId,  quotes.authorId, 
+    categories.categories, authors.author
+    FROM quotes  
+    INNER JOIN categories 
+    ON quotes.categoryId = categories.id
+    INNER JOIN authors
+    ON  quotes.authorId = authors.id
+    WHERE quotes.id = ?
+    LIMIT 0,1';
+
+    $statement = $this->conn->prepare($query);
+    $statement->bindParam(1, $this->id);
+    $statement->execute();
+    $row = $statement->fetch(PDO::FETCH_ASSOC);
+    
+    // Set properties
+
+    $this->quote = $row['quote'];
+    $this->author = $row['author'];
+    $this->category = $row['category'];
+    $this->id = $row['id'];
+
+}
+
+// Create Quote
+
+public function create() {
+
+    // Create Query 
+    $query = 'INSERT INTO quotes
+    SET quote = :quote,
+        authorId = :authorId,
+        categoryId = :categoryId';
+
+    // Prepare Statement
+
+    $statement = $this->conn->prepare($query);
+
+    // Clean data
+
+    $this->quote = htmlspecialchars(strip_tags($this->quote));
+    $this->author_id = htmlspecialchars(strip_tags($this->authorId));
+    $this->category_id = htmlspecialchars(strip_tags($this->categoryId));
+
+    // Bind Data
+
+    $statement->bindParam(':quote', $this->quote);
+    $statement->bindParam(':author_id', $this->authorId);
+    $statement->bindParam(':category_id', $this->categoryId);
+
+    // Execute
+
+    if($statement->execute()) {
+        return true;
+        printf('Quote Created');
+    } else {
+
+        // Print Error If Something Goes Wrong
+        return false;
+        printf("Error: %s . \n", $statement->error);
+    }
+}
+
 }
 
 
