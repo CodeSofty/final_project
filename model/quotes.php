@@ -2,6 +2,7 @@
 
 //These are the functions just for the quotes
 
+
 class Quote {
  // DB Stuff
 
@@ -20,6 +21,7 @@ public $author;
 public function __construct($db){
     $this->conn = $db;
 }
+
 
 // Read Quotes
 
@@ -83,14 +85,14 @@ public function create() {
     // Clean data
 
     $this->quote = htmlspecialchars(strip_tags($this->quote));
-    $this->author_id = htmlspecialchars(strip_tags($this->authorId));
-    $this->category_id = htmlspecialchars(strip_tags($this->categoryId));
+    $this->authorId = htmlspecialchars(strip_tags($this->authorId));
+    $this->categoryId = htmlspecialchars(strip_tags($this->categoryId));
 
     // Bind Data
 
     $statement->bindParam(':quote', $this->quote);
-    $statement->bindParam(':author_id', $this->authorId);
-    $statement->bindParam(':category_id', $this->categoryId);
+    $statement->bindParam(':authorId', $this->authorId);
+    $statement->bindParam(':categoryId', $this->categoryId);
 
     // Execute
 
@@ -103,6 +105,82 @@ public function create() {
         return false;
         printf("Error: %s . \n", $statement->error);
     }
+}
+
+
+
+
+// Update Quote
+
+public function update() {
+
+    // Create Query 
+    $query = 'UPDATE quotes
+    SET quote = :quote,
+        authorId = :authorId,
+        categoryId = :categoryId
+        WHERE id = :id';
+
+    // Prepare Statement
+
+    $statement = $this->conn->prepare($query);
+
+    // Clean data
+
+    $this->quote = htmlspecialchars(strip_tags($this->quote));
+    $this->authorId = htmlspecialchars(strip_tags($this->authorId));
+    $this->categoryId = htmlspecialchars(strip_tags($this->categoryId));
+
+    // Bind Data
+
+    $statement->bindParam(':quote', $this->quote);
+    $statement->bindParam(':authorId', $this->authorId);
+    $statement->bindParam(':categoryId', $this->categoryId);
+    $statement->bindParam(':id', $this->id);
+
+    // Execute
+
+    if($statement->execute()) {
+        return true;
+        printf('Quote Created');
+    } else {
+
+        // Print Error If Something Goes Wrong
+        return false;
+        printf("Error: %s . \n", $statement->error);
+    }
+}
+
+
+// Delete Quote
+
+public function delete(){
+    // Create Query
+
+$query =  'DELETE FROM quotes
+    WHERE quotes.id = :id';
+
+// Prepare Query
+$statement = $this->conn->prepare($query);
+// Clean ID
+$this->id = htmlspecialchars(strip_tags($this->id));
+// Bind Parameters
+$statement->bindParam(':id', $this->id);
+
+
+// Execute 
+
+if($statement->execute()) {
+    return true;
+    printf('Quote Delete');
+} else {
+
+    // Print Error If Something Goes Wrong
+    return false;
+    printf("Error: %s . \n", $statement->error);
+}
+
+
 }
 
 }

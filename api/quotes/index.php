@@ -2,7 +2,7 @@
 
 // Headers
 
-header('Access-Control-Allow-Oirigin: *');
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
 require('../../config/database.php');
@@ -16,6 +16,7 @@ $db = $database->connect();
 // Instantiate Quote Object
 
 $quote = new Quote($db);
+
 
 // Quote Query
 

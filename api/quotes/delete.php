@@ -4,7 +4,7 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Methods: DELETE');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Access-Control-Allow-Methods, 
 Authorization, X-Requested-With');
 
@@ -24,19 +24,19 @@ $quote = new Quote($db);
 
 $data = json_decode(file_get_contents("php://input"));
 
+$quote->id = $data->id;
 $quote->quote = $data->quote;
 $quote->categoryId = $data->categoryId;
 $quote->authorId = $data->authorId;
+// Delete Post
 
-// Create Post
-
-if($quote->create()) {
+if($quote->delete()) {
     echo json_encode(
-        array('message' => 'Quote Created')
+        array('message' => 'Quote Deleted')
     );
 } else {
     echo json_encode( 
-        array('message' => 'Quote Not Created')
+        array('message' => 'Quote Not Deleted')
     );
 }
 
