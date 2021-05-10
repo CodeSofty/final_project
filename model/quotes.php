@@ -183,66 +183,50 @@ if($statement->execute()) {
 
 }
 
+public function get_quotes_by_category($category_id) {
+    $query = 'SELECT quotes.quote, quotes.id, quotes.categoryId, quotes.authorID, categories.categories, authors.author
+        FROM quotes
+        LEFT JOIN categories ON quotes.categoryid = categories.ID
+        LEFT JOIN authors ON quotes.authorid = authors.ID
+        WHERE quotes.categoryId = :categoryId';
+
+    $statement = $this->conn->prepare($query);
+    $statement->bindParam(':categoryId', $this->categoryId);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    return $results;
+
+}
+
+public function get_quotes_by_author($author_id) {
+    $query = 'SELECT quotes.quote, quotes.id, quotes.categoryId, quotes.authorID, categories.categories, authors.author
+        FROM quotes
+        LEFT JOIN categories ON quotes.categoryid = categories.ID
+        LEFT JOIN authors ON quotes.authorid = authors.ID
+        WHERE quotes.authorId = :authorId';
+
+    $statement = $this->conn->prepare($query);
+    $statement->bindParam(':authorId', $this->authorId);
+    $statement->execute();
+    $results = $statement->fetchAll();
+    return $results;
+
 }
 
 
-    // public static function get_quotes_by_category($category_id) {
-    //     $db = Database::getDB();
-    //     $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId, quotes.authorId, categories.categories, authors.author 
-    //     FROM quotes
-    //     LEFT JOIN categories ON quotes.categoryid = categories.ID
-    //     LEFT JOIN authors ON quotes.authorid = authors.ID
-    //     WHERE quotes.categoryId = :category_id';
-    //     $statement = $db->prepare($query);
-    //     $statement->bindValue(':category_id', $category_id);
-    //     $statement->execute();
-    //     $results = $statement->fetchALL();
-    //     $statement->closeCursor();
-    //     return $results;
-    // }
+public function get_quotes_by_both($author_id, $category_id) {
 
-    // public static function get_quotes_by_author($author_id) {
-    //     $db = Database::getDB();
-    //     $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId, quotes.authorId, categories.categories, authors.author 
-    //     FROM quotes
-    //     LEFT JOIN categories ON quotes.categoryid = categories.ID
-    //     LEFT JOIN authors ON quotes.authorid = authors.ID
-    //     WHERE quotes.authorId = :author_id';
-    //     $statement = $db->prepare($query);
-    //     $statement->bindValue(':author_id', $author_id);
-    //     $statement->execute();
-    //     $results = $statement->fetchALL();
-    //     $statement->closeCursor();
-    //     return $results;
-    // }
+        $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId, quotes.authorId, categories.categories, authors.author
+        FROM quotes
+        LEFT JOIN categories ON quotes.categoryId = categories.ID
+        LEFT JOIN authors ON quotes.authorId = authors.ID
+        WHERE quotes.authorId = :author_id AND quotes.categoryId = :category_id';
+        $statement = $this->conn->prepare($query);
+        $statement->bindParam(':authorId', $this->authorId);
+        $statement->bindParam(':categoryId', $this->categoryId);
+        $statement->execute();
+        $results = $statement->fetchAll();
+        return $results;
+    }
 
-    // public static function get_quotes_by_both($author_id, $category_id) {
-    //     $db = Database::getDB();
-    //     $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId, quotes.authorId, categories.categories, authors.author
-    //     FROM quotes
-    //     LEFT JOIN categories ON quotes.categoryId = categories.ID
-    //     LEFT JOIN authors ON quotes.authorId = authors.ID
-    //     WHERE quotes.authorId = :author_id AND quotes.categoryId = :category_id';
-    //     $statement = $db->prepare($query);
-    //     $statement->bindValue(':author_id', $author_id);
-    //     $statement->bindValue(':category_id', $category_id);
-    //     $statement->execute();
-    //     $results = $statement->fetchALL();
-    //     $statement->closeCursor();
-    //     return $results;
-    // }
-
-    // public static function get_quotes(){
-    //     $db = Database::getDB();
-
-    //     $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId, quotes.authorId, categories.categories, authors.author FROM quotes
-    //     INNER JOIN categories
-    //     ON quotes.categoryId = categories.ID
-    //     INNER JOIN authors
-    //     ON quotes.authorId = authors.ID';
-    //     $statement = $db->prepare($query);
-    //     $statement->execute();
-    //     $results = $statement->fetchALL();
-    //     $statement->closeCursor();
-    //     return $results;
-    // }
+}

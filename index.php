@@ -41,21 +41,25 @@ switch($action) {
 
     case "filter_quotes":
         if($author_id && $category_id) {
-            $quotes = QuotesDB::get_quotes_by_both($author_id, $category_id);
+            $quotes->authorId = $authorId;
+            $quotes->categoryId = $categoryId;
+            $quotes = $quotes->get_quotes_by_both();
             $categories = $category->read();
             $authors =  $author->read();
             include('view/quote_list.php');
         break;
 
         } else if ($author_id) {
-            $quotes = $quotes->read();
+            $quotes->authorId = $authorId;
+            $quotes = $quotes->get_quotes_by_author();
             $categories = $categories->read();
             $authors =  $authors->read();
             include('view/quote_list.php');
         break;
 
         } else if ($category_id) {
-            $quotes = QuotesDB::get_quotes_by_category($category_id);
+            $quotes->categoryId = $categoryId;
+            $quotes = $quotes->get_quotes_by_category();
             $categories = $category->read();
             $authors =  $author->read();
             include('view/quote_list.php');
