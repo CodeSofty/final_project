@@ -33,7 +33,7 @@ public function read() {
                     return $statement;
 }
 
-// Single Quote 
+// Single Author 
 
 public function read_single() {
     $query = 'SELECT authors.id, authors.author
@@ -89,7 +89,7 @@ public function create() {
 
 
 
-// Update Quote
+// Update Author
 
 public function update() {
 

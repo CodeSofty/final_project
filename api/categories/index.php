@@ -13,18 +13,18 @@ require('../../model/category.php');
 $database = new Database();
 $db = $database->connect();
 
-// Instantiate Quote Object
+// Instantiate Author Object
 
 $category = new Category($db);
 
 
-// Quote Query
+// Author Query
 
 $result = $category->read();
 //Get row count
 $count = $result->rowCount();
 
-// Check if any quotes
+// Check if any authors
 
 if($count > 0) {
     // Initialize Array
@@ -36,7 +36,7 @@ if($count > 0) {
 
         $category_item = array(
             'id' => $id,
-            'category' => $category
+            'category' => $categories
         );
 
         // Push to array
@@ -50,7 +50,7 @@ if($count > 0) {
     echo json_encode($category_arr);
 } else {
 
-    // No Quotes
+    // No Authors
     
     echo json_encode(array('message' => 'No Categories Found')
 );
