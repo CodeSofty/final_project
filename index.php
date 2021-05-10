@@ -2,10 +2,17 @@
 
 // Require models
 
-require('model/database.php');
+require('config/database.php');
 require('model/quotes.php');
-require('model/author_db.php');
-require('model/category_db.php');
+require('model/author.php');
+require('model/category.php');
+
+$database = new Database();
+$db = $database->connect();
+
+$quotes = new Quote($db);
+$authors = new Author($db);
+$categories = new Category($db);
 
 
 // Get ID's 
@@ -35,22 +42,22 @@ switch($action) {
     case "filter_quotes":
         if($author_id && $category_id) {
             $quotes = QuotesDB::get_quotes_by_both($author_id, $category_id);
-            $categories = CategoriesDB::get_categories();
-            $authors =  AuthorsDB::get_authors();
+            $categories = $category->read();
+            $authors =  $author->read();
             include('view/quote_list.php');
         break;
 
         } else if ($author_id) {
-            $quotes = QuotesDB::get_quotes_by_author($author_id);
-            $categories = CategoriesDB::get_categories();
-            $authors =  AuthorsDB::get_authors();
+            $quotes = $quotes->read();
+            $categories = $categories->read();
+            $authors =  $authors->read();
             include('view/quote_list.php');
         break;
 
         } else if ($category_id) {
             $quotes = QuotesDB::get_quotes_by_category($category_id);
-            $categories = CategoriesDB::get_categories();
-            $authors =  AuthorsDB::get_authors();
+            $categories = $category->read();
+            $authors =  $author->read();
             include('view/quote_list.php');
         break;
 
@@ -65,10 +72,10 @@ switch($action) {
     // Display all quotes
 
     default:
-        $quotes = QuotesDB::get_quotes();
-        $categories = CategoriesDB::get_categories();
-        $authors =  AuthorsDB::get_authors();
-        include('view/quote_list.php');
+    $quotes = $quotes->read();
+    $categories = $categories->read();
+    $authors =  $authors->read();
+    include('view/quote_list.php');
 }
 
 
