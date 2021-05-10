@@ -28,7 +28,7 @@ public function __construct($db){
 public function read() {
     // Create query
 
-    $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId,  quotes.authorId, 
+    $query = 'SELECT quotes.quote, quotes.id, quotes.categoryId,  quotes.authorId, 
                         categories.categories, authors.author
                         FROM quotes  
                         INNER JOIN categories 
@@ -44,7 +44,7 @@ public function read() {
 // Single Quote 
 
 public function read_single() {
-    $query = 'SELECT quotes.quote, quotes.ID, quotes.categoryId,  quotes.authorId, 
+    $query = 'SELECT quotes.quote, quotes.id, quotes.categoryId,  quotes.authorId, 
     categories.categories, authors.author
     FROM quotes  
     INNER JOIN categories 
@@ -63,7 +63,7 @@ public function read_single() {
 
     $this->quote = $row['quote'];
     $this->author = $row['author'];
-    $this->category = $row['category'];
+    $this->category = $row['categories'];
     $this->id = $row['id'];
 
 }

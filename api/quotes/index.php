@@ -29,7 +29,7 @@ $count = $result->rowCount();
 if($count > 0) {
     // Initialize Array
 
-    $quote__arr = array();
+    $quote_arr = array();
 
     while($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -38,7 +38,7 @@ if($count > 0) {
             'id' => $id,
             'quote' => $quote,
             'author' => $author,
-            'category' => $category
+            'category' => $categories
         );
 
         // Push to array
