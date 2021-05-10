@@ -30,7 +30,6 @@ if($count > 0) {
     // Initialize Array
 
     $author_arr = array();
-    $author_arr['data']  = array();
 
     while($row = $result->fetch(PDO::FETCH_ASSOC)) {
         extract($row);
@@ -42,7 +41,7 @@ if($count > 0) {
 
         // Push to array
 
-        array_push($author_arr['data'], $author_item);
+        array_push($author_arr, $author_item);
 
     }
 
