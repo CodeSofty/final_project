@@ -1,6 +1,4 @@
 <?php
-
-// Local 
 class Database
 {
 
@@ -8,14 +6,14 @@ class Database
 
     public function connect()
     {
-        $url = getenv('mysql://eq4n79gcir6a6jnc:kthqf6rf642405mu@y5svr1t2r5xudqeq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/gujm8m3lfizcbent');
+        $url = getenv('JAWSDB_URL');
         $dbparts = parse_url($url);
 
         $hostname = $dbparts['host'];
         $username = $dbparts['user'];
         $password = $dbparts['pass'];
         $database = ltrim($dbparts['path'],'/');
-        $dsn = "mysql:host={y5svr1t2r5xudqeq.cbetxkdyhwsb.us-east-1.rds.amazonaws.com};dbname={$gujm8m3lfizcbent}";
+        $dsn = "mysql:host={$hostname};dbname={$database}";
 
         try
         {
